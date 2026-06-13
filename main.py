@@ -368,12 +368,11 @@ if uploaded_file:
                                 collected_data[player] = collected_data.get(player, 0.0) + amt
 
                         if collected_data:
-                            max_amt = max(collected_data.values())
-                            true_winners = [p for p, amt in collected_data.items() if amt >= max_amt - 0.05]
-
-                            hero_winners = [p for p in true_winners if p == user_hero_name]
-                            if hero_winners:
-                                total_splash_won += splash_in_hand / len(true_winners)
+                            # Poprawiona proporcjonalna matematyka zostaje zachowana w interfejsie!
+                            total_coll = sum(collected_data.values())
+                            if user_hero_name in collected_data and total_coll > 0:
+                                hero_share = collected_data[user_hero_name] / total_coll
+                                total_splash_won += splash_in_hand * hero_share
                                 splash_hands_count += 1
 
                 # Konwersja rąk
